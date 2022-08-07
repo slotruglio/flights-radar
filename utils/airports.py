@@ -97,8 +97,7 @@ def get_airports_by_city(cityname, country, distance=150):
 	from utils import translator
 	from utils.cities import get_city_by_name
 
-	name = translator.get_translated_city(cityname)
-	city = get_city_by_name(name, country)
+	city = get_city_by_name(cityname, country)
 	if not city:
 		return None
 
