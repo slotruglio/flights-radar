@@ -79,6 +79,6 @@ def get_cities():
 def get_city_by_name(name, country):
 	cities = get_cities()
 	for city in cities:
-		if city["name"] == name and city["country"] == country:
+		if city["name"] == name.upper() and city["country"] == country.upper():
 			return city
 	return None

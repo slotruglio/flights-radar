@@ -107,8 +107,13 @@ def get_airports_by_city(cityname, country, distance=150):
 		if airport["country"] == city["country"]:
 			if get_distance(airport["latitude"], city["latitude"], airport["longitude"], city["longitude"]) <=distance:
 				city_airports.append(airport)
-				print(city["name"], airport["name"])
 
 	return city_airports
+
+def get_airport_by_code(code):
+	for airport in get_airports():
+		if airport["code"] == code:
+			return airport
+	return None
 
 airports = get_airports()
