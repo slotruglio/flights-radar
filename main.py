@@ -7,7 +7,7 @@ array = []
 range_of_days = range(10)
 for day in range_of_days:
     newdate = date + timedelta(days=day)
-    flights = get_trip_fare("palermo", "torino", newdate)
+    flights = get_trip_fare(["palermo", "IT"], ["torino", "IT"], newdate)
     if flights:
         array += flights
 

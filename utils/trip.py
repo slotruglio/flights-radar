@@ -1,13 +1,13 @@
 from datetime import timedelta
 from ryanair import Ryanair
-from utils.airports import get_airport_by_city
+from utils.airports import get_airports_by_city
 
 ryanair = Ryanair("EUR")
 
 def get_trip_fare(origin, destination, date):
-
-    origin_airports = [airport["code"] for airport in get_airport_by_city(origin)]
-    destination_airports = [airport["code"] for airport in get_airport_by_city(destination)]
+    
+    origin_airports = [airport["code"] for airport in get_airports_by_city(origin[0], origin[1])]
+    destination_airports = [airport["code"] for airport in get_airports_by_city(destination[0], destination[1])]
 
     all_flights = []
     for airport in origin_airports:
