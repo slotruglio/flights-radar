@@ -66,18 +66,29 @@ def get_trenitalia_fare(origin, destination, date):
 
 	response = trenitalia_request(origin, destination, date)
 	data = json.loads(response)
+
 	trips = []
 	if "solutions" not in data.keys():
 		return trips
 	for trip in data["solutions"]:
 		if len(trip["grids"]) == 0 or len(trip["grids"][0]["services"]) == 0:
 			continue
+
+		trip_duration = 0
+		trip_duration_array = trip["solution"]["duration"].replace("min", "").replace("h", "").split()
+		if len(trip_duration_array) == 1:
+			trip_duration = int(trip_duration_array[0])
+		else:
+			trip_duration = int(trip_duration_array[0])*60+int(trip_duration_array[1])
+
+
 		trips.append(
 			Train(
 				origin=origin,
 				destination=destination,
 				departure_time=datetime.strptime(trip["solution"]["departureTime"], "%Y-%m-%dT%H:%M:%S.%f%z").strftime('%H:%M'), 
 				arrival_time=datetime.strptime(trip["solution"]["arrivalTime"], "%Y-%m-%dT%H:%M:%S.%f%z").strftime('%H:%M'), 
+				duration=trip_duration,
 				price=trip["grids"][0]["services"][0]["minPrice"]["amount"])
 		)
 	return trips
