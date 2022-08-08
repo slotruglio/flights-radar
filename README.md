@@ -6,4 +6,7 @@ Compare different airlines and get the cheapest one
 
 ## Status
 Development in progress
-ATM only one airline is supported (ryanair)
+Working with different airlines, but only trenitalia trains for now
+
+## Credits
+- [Travelpayouts](https://travelpayouts.com/) & Aviasales APIs for flights
