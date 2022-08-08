@@ -3,20 +3,23 @@ from utils.types import Flight
 import requests
 import json
 
-BASEURL = "https://travelpayouts-travelpayouts-flight-data-v1.p.rapidapi.com/v2/prices/month-matrix"
-
-HEADERS = {
-	"X-Access-Token": "352b65686197dd163e37005f57ab6230",
-	"X-RapidAPI-Key": "2d9a385ed6msh7153afb0707b67ap1ef24bjsna363605c31a5",
-	"X-RapidAPI-Host": "travelpayouts-travelpayouts-flight-data-v1.p.rapidapi.com"
-}
+BASEURL = "http://api.travelpayouts.com/v2/prices/month-matrix"
 
 def flights_request(origin, destination, date):
+	token = ""
+	with open("data/keys/travelpayout.txt", "r") as f:
+		token = f.read()
 
-	querystring = {"destination":destination,"origin":origin,"currency":"EUR","month":date,"show_to_affiliates":"false"}
+	querystring = { 
+		"currency":"eur",
+		"origin":origin,
+		"destination":destination,
+		"show_to_affiliates":True,
+		"token":token,
+		"month":date
+		}
 
-
-	response = requests.request("GET", BASEURL, headers=HEADERS, params=querystring)
+	response = requests.request("GET", BASEURL, params=querystring)
 
 	results = json.loads(response.text)
 	flights = {}
