@@ -111,7 +111,7 @@ def get_airports_by_city(cityname, country, distance=150):
 
 def get_airport_by_code(code):
 	for airport in get_airports():
-		if airport["code"] == code:
+		if airport["code"] == code or airport["keywords"] == code:
 			return airport
 	return None
 
