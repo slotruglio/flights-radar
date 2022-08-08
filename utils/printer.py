@@ -14,10 +14,10 @@ def print_flight(flight, origin_city, destination_city, transfer):
 	print(f"Departure: {flight.departure_date.strftime('%d/%m/%Y')}")
 	print(f"{flight.origin} -> {flight.destination} - € {flight.price}")
 	print(f"{flight.vector}, {flight.number_of_changes} changes")
-	for train in transfer["departure_trains"]:
-		print("Departure Train: {} -> {} - € {}".format(train.departure_time, train.arrival_time, train.price))
-	for train in transfer["arrival_trains"]:
-		print("Arrival Train: {} -> {} - € {}".format(train.departure_time, train.arrival_time, train.price))
+	
+	print("Departure Train Prices (€): avg {:.2f}, min {:.2f}, max {:.2f}".format(transfer["departure_trains"]["avg"], transfer["departure_trains"]["min"], transfer["departure_trains"]["max"]))
+	print("Arrival Train Prices (€): avg {:.2f}, min {:.2f}, max {:.2f}".format(transfer["arrival_trains"]["avg"], transfer["arrival_trains"]["min"], transfer["arrival_trains"]["max"]))
+	
 	print("Distance between origin airport and city: {:.0f} km".format(distance_by_origin))
 	print("Distance between destination airport and city: {:.0f} km".format(distance_by_destination))
 	print("----------------------------------------------------")

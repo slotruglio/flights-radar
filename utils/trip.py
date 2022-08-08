@@ -1,6 +1,7 @@
 from datetime import timedelta
 from utils.airports import get_airports_by_city
 from utils.travelpayouts import flights_request
+from utils.trenitalia import get_trenitalia_fare
 
 def get_flights(origin, destination, date, range_days = 10, limit=10):
 	starting_date = date - timedelta(days=range_days)
@@ -32,3 +33,23 @@ def get_flights(origin, destination, date, range_days = 10, limit=10):
 					flights.extend(inner_flights[date])
 	return sorted(flights, key=lambda flight: flight.price)[:limit]
 
+def get_train_fares(origin, destination, date):
+	avg = 0.
+	min = 999.
+	max = 0.
+
+	flag = False
+
+	trains = get_trenitalia_fare(origin, destination, date)
+
+	for train in trains:
+		if train.price < min:
+			min = train.price
+		if train.price > max:
+			max = train.price
+		avg += train.price
+		flag = True
+	
+	if flag:
+		return {"avg": avg/len(trains), "min": min, "max": max}
+	return {"avg": 0, "min": 0, "max": 0}
