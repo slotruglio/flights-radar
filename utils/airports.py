@@ -87,6 +87,7 @@ def get_airports():
 				"latitude": float(row["latitude_deg"]),
 				"longitude": float(row["longitude_deg"]),
 				"continent": row["continent"].upper(),
+				"keywords": row["keywords"].upper().split(",")[0]
 			}
 			if len(airport["code"]) == 3 and airport["continent"] == "EU":
 				airports.append(airport)
@@ -94,7 +95,6 @@ def get_airports():
 		return airports
 
 def get_airports_by_city(cityname, country, distance=150):
-	from utils import translator
 	from utils.cities import get_city_by_name
 
 	city = get_city_by_name(cityname, country)
