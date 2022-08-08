@@ -18,7 +18,6 @@ flights = oneway_trip(origin_city, destination_city, date, 10)
 if flights:
 	for flight in flights:
 		transfer = {}
-		transfer["departure_trains"] = get_trenitalia_fare(origin_city[0], flight.origin, flight.departureTime.strftime('%Y-%m-%d'))
-		print("***here check***")
-		transfer["arrival_trains"] = get_trenitalia_fare(flight.destination, destination_city[0], flight.departureTime.strftime('%Y-%m-%d'))
+		transfer["departure_trains"] = get_trenitalia_fare(origin_city[0], flight.originFull.split()[0]+" airport", flight.departureTime.strftime('%Y-%m-%d'))
+		transfer["arrival_trains"] = get_trenitalia_fare(flight.destinationFull.split()[0]+" airport", destination_city[0], flight.departureTime.strftime('%Y-%m-%d'))
 		print_flights(flight, origin_city, destination_city, transfer)

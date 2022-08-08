@@ -3,16 +3,30 @@ import requests
 from datetime import datetime
 
 TRENITALIA_API_JOURNEY = "https://www.lefrecce.it/Channels.Website.BFF.WEB/website/ticket/solutions"
+TRENITALIA_API_SEARCH_STATION = "https://www.lefrecce.it/Channels.Website.BFF.WEB/website/locations/"
 
 def get_train_id(station):
+	from utils.translator import get_italian_name
 	import csv
 
-	with open('data/trenitalia_ids.csv', 'r') as csv_file:
-		csv_reader = csv.DictReader(csv_file, delimiter=",")
-		line_count = 0
+	station = get_italian_name(station.upper()).replace(",", "")
+
+	with open ('data/trenitalia_stations.csv', 'r') as csvfile:
+		csv_reader = csv.DictReader(csvfile, delimiter=',')
 		for row in csv_reader:
-			if row["name"] == station.upper():
+			if row["name"] == station:
 				return row["id"]
+
+	research = "search?name={}&limit=1".format(station)
+
+	r = requests.get(url=TRENITALIA_API_SEARCH_STATION+research)
+	response = json.loads(r.text)
+	if len(response) > 0:
+		with open('data/trenitalia_stations.csv', 'a') as csvfile:
+			csv_writer = csv.writer(csvfile, delimiter=',')
+			csv_writer.writerow([station, response[0]["id"]])
+		return response[0]["id"]
+	return -1
 
 def trenitalia_request(origin, destination, departure):
 
@@ -60,4 +74,3 @@ def get_trenitalia_fare(origin, destination, date):
 			}
 		)
 	return trips
-
